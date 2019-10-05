@@ -34,8 +34,12 @@ def mean_squared_error(y, t):
 
 # 交差エントロピー誤差
 def cross_entropy_error(y, t):
-    delta = 1e-7
-    return -np.sum(t * np.log(y + delta))
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+
+    batch_size = y.shape[0]
+    return -np.sum(t * np.log(y)) / batch_size
 
 
 def numerical_gradient(f, x):
@@ -43,7 +47,7 @@ def numerical_gradient(f, x):
     grad = np.zeros_like(x)
     xt1 = np.copy(x)
     xt2 = np.copy(x)
-    for idx in range(x.size):
+    for idx in range(x.shape[0]):
         tmp1 = xt1[idx]
         tmp2 = xt2[idx]
 
@@ -56,3 +60,16 @@ def numerical_gradient(f, x):
         xt2[idx] = tmp2
 
     return grad
+
+
+def gradient_descent(f, init_x, lr=0.01, step_num=100):
+    x = init_x
+
+    for i in range(step_num):
+        grad = numerical_gradient(f, x)
+        x -= lr * grad
+
+    return x
+
+def sigmoid_grad(x):
+    return (1.0 - sigmoid(x)) * sigmoid(x)

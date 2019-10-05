@@ -14,7 +14,7 @@ plt.ylim(-0.1,1.1)
 plt.show()
 '''
 
-
+'''
 def function1(x):
     return 0.01 * x ** 2 + 0.1 * x
 
@@ -30,3 +30,13 @@ print(bf.mean_squared_error(np.array(y), np.array(t)))
 print(bf.numerical_gradient(function2, np.array([3.0, 4.0])))
 print(bf.numerical_gradient(function2, np.array([0.0, 2.0])))
 print(bf.numerical_gradient(function2, np.array([3.0, 0.0])))
+
+init_x = np.array([-3.0, 4.0])
+print(bf.gradient_descent(function2, init_x=init_x, lr=0.1, step_num=100))
+
+'''
+
+a = np.random.choice(10,5)
+b = np.array([0,11,12,13,14,15,16,17,18,19])
+print(a)
+print(b[a])
